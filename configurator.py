@@ -17,9 +17,9 @@ class Configurator:
             getattr(local, option)[choice]
         ))
 
-    def get_coords(self, address):
+    def get_coords(self, addr):
 
-        response = gmaps.geocode(address)
+        response = gmaps.geocode(addr)
 
         return response[0]['geometry']['location']['lat'], response[0]['geometry']['location']['lng']  
 
@@ -28,7 +28,7 @@ class Configurator:
         if parent is None:
             parent = self.car
         
-        parent['lat'], parent['lng'] = self.get_coords(parent['address'])
+        parent['lat'], parent['lng'] = self.get_coords(parent['addr'])
         
         if 'options' in parent:
             for option, child in parent['options'].items():

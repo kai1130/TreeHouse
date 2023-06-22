@@ -3,7 +3,7 @@ models = {
         'name': 'Model H',
         'price': 40000,
         'manufacturer': 'Hedera Motors Dallas',
-        'address': '2400 Aviation Dr, DFW Airport, TX 75261, USA',
+        'addr': '2400 Aviation Dr, DFW Airport, TX 75261, USA',
         'weight': 1800,
         'materials':{
             'metal': 1000,
@@ -18,7 +18,7 @@ models = {
         'name': 'Model B',
         'price': 70000,
         'manufacturer': 'Hedera Motors Hangzhou',
-        'address': '6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China',
+        'addr': '6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China',
         'weight': 1800,
         'materials':{
             'metal': 1100,
@@ -33,7 +33,7 @@ models = {
         'name': 'Model A',
         'price': 50000,
         'manufacturer': 'Hedera Motors Dallas',
-        'address': '2400 Aviation Dr, DFW Airport, TX 75261, USA',
+        'addr': '2400 Aviation Dr, DFW Airport, TX 75261, USA',
         'weight': 2100,
         'materials':{
             'metal': 1300,
@@ -47,7 +47,7 @@ models = {
         'name': 'Model R',
         'price': 80000,
         'manufacturer': 'Hedera Motors Hangzhou',
-        'address': '6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China',
+        'addr': '6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China',
         'weight': 2100,
         'materials':{
             'metal': 1500,
