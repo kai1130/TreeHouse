@@ -14,13 +14,13 @@ contract white_seat {
 
    attributes public attr;
 
-   constructor() {
-      attr.name = "White Seat";
-      attr.price = 1000;
-      attr.manufacturer = "Mexico City Seat Company";
-      attr.addr = "Av. Capitan Carlos Leon S/N, Penon de los Banos, Venustiano Carranza, 15620 Ciudad de Mexico, CDMX, Mexico";
-      attr.weight = 100;
-      attr.materials_leatherette = 15;
-      attr.materials_metal = 20;
+    constructor() {
+       attr.name = "White Seat";
+       attr.price = 1000;
+       attr.manufacturer = "Mexico City Seat Company";
+       attr.addr = "Av. Capitan Carlos Leon S/N";
+       attr.weight = 100;
+       attr.materials_leatherette = 15;
+       attr.materials_metal = 20;
     }
 }

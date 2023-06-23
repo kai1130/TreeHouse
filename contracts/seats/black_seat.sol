@@ -14,13 +14,13 @@ contract black_seat {
 
    attributes public attr;
 
-   constructor() {
-      attr.name = "Black Seat";
-      attr.price = 0;
-      attr.manufacturer = "Tokyo Seat Company";
-      attr.addr = "1-1 Furugome, Narita, Chiba 282-0004, Japan";
-      attr.weight = 100;
-      attr.materials_leather = 15;
-      attr.materials_metal = 20;
+    constructor() {
+       attr.name = "Black Seat";
+       attr.price = 0;
+       attr.manufacturer = "Tokyo Seat Company";
+       attr.addr = "1-1 Furugome, Narita, Chiba";
+       attr.weight = 100;
+       attr.materials_leather = 15;
+       attr.materials_metal = 20;
     }
 }
