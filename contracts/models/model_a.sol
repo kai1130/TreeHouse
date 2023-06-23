@@ -14,17 +14,31 @@ contract Model_A {
         string options_wheels;
     }
 
-   attributes public attr;
+    attributes public attr;
 
-   constructor() {
-      attr.name = "Model A";
-      attr.price = 50000;
-      attr.manufacturer = "Hedera Motors Dallas";
-      attr.addr = "2400 Aviation Dr, DFW Airport, TX 75261, USA";
-      attr.weight = 1800;
-      attr.materials_metal = 1300;
-      attr.materials_plastic = 700;
-      attr.options_seats = "";
-      attr.options_wheels = "";
+    constructor() {
+        attr.name = "Model A";
+        attr.price = 50000;
+        attr.manufacturer = "Hedera Motors Dallas";
+        attr.addr = "2400 Aviation Dr, DFW Airport, TX 75261, USA";
+        attr.weight = 1800;
+        attr.materials_metal = 1300;
+        attr.materials_plastic = 700;
+        attr.options_seats = "";
+        attr.options_wheels = "";
+    }
+
+    function getParameters() public view returns (string memory, uint256, string memory, string memory, uint256, uint256, uint256, string memory, string memory) {
+        return (
+            attr.name,
+            attr.price,
+            attr.manufacturer,
+            attr.addr,
+            attr.weight,
+            attr.materials_metal,
+            attr.materials_plastic,
+            attr.options_seats,
+            attr.options_wheels
+        );
     }
 }
