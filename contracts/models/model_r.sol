@@ -14,17 +14,17 @@ contract Model_R {
         string options_wheels;
     }
 
-   attributes public attr;
+    attributes public attr;
 
     constructor() {
-       attr.name = "Model R";
-       attr.price = 80000;
-       attr.manufacturer = "Hedera Motors Hangzhou";
-       attr.addr = "6CPQ+9HC, Xiaoshan District";
-       attr.weight = 2100;
-       attr.materials_metal = 1500;
-       attr.materials_plastic = 800;
-       attr.options_seats = "";
-       attr.options_wheels = "";
+        attr.name = "Model R";
+        attr.price = 80000;
+        attr.manufacturer = "Hedera Motors Hangzhou";
+        attr.addr = "6CPQ+9HC, Xiaoshan District";
+        attr.weight = 2100;
+        attr.materials_metal = 1500;
+        attr.materials_plastic = 800;
+        attr.options_seats = "";
+        attr.options_wheels = "";
     }
 }

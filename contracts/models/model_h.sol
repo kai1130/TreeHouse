@@ -14,17 +14,17 @@ contract Model_H {
         string options_wheels;
     }
 
-   attributes public attr;
+    attributes public attr;
 
     constructor() {
-       attr.name = "Model H";
-       attr.price = 40000;
-       attr.manufacturer = "Hedera Motors Dallas";
-       attr.addr = "2400 Aviation Dr, DFW Airport";
-       attr.weight = 1800;
-       attr.materials_metal = 1000;
-       attr.materials_plastic = 400;
-       attr.options_seats = "";
-       attr.options_wheels = "";
+        attr.name = "Model H";
+        attr.price = 40000;
+        attr.manufacturer = "Hedera Motors Dallas";
+        attr.addr = "2400 Aviation Dr, DFW Airport";
+        attr.weight = 1800;
+        attr.materials_metal = 1000;
+        attr.materials_plastic = 400;
+        attr.options_seats = "";
+        attr.options_wheels = "";
     }
 }
