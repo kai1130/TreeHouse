@@ -25,7 +25,7 @@ class SQLiteWrapper:
         '''
         self.cursor.execute(query)
         self.conn.commit()
-        self.disconnect()
+        
 
     def create_product_table(self):
         self.connect()
@@ -38,14 +38,12 @@ class SQLiteWrapper:
                 callable TEXT,
                 contract_id TEXT,
                 instantiated BOOL DEFAULT false,
-                contract_id TEXT,
                 evm_addr TEXT,
                 contract_index INTEGER
             );
         '''
         self.cursor.execute(query)
         self.conn.commit()
-        self.disconnect()
 
     def insert_product(self, category, name, binpath, callable_func, contract_id):
         self.connect()
@@ -56,10 +54,9 @@ class SQLiteWrapper:
         self.cursor.execute(query, (category, name, binpath, callable_func, contract_id))
         self.conn.commit()
         last_row_id = self.cursor.lastrowid
-        self.disconnect()
         return last_row_id
 
-    def insert_contract(contract_id, network):
+    def insert_contract(self, contract_id, network):
         self.connect()
         query = '''
           INSERT INTO contracts (contract_id, network)
@@ -69,7 +66,6 @@ class SQLiteWrapper:
         self.cursor.execute(query, (contract_id, network))
         self.conn.commit()
         last_row_id = self.cursor.lastrowid
-        self.diconnect()
         return last_row_id
 
 

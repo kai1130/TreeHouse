@@ -1,40 +1,24 @@
 import os 
 from credentials import OPERATOR_ID, OPERATOR_KEY
 
-os.environ['OPERATOR_ID'] = OPERATOR_ID
-os.environ['OPERATOR_KEY'] = OPERATOR_KEY
-
-import pandas as pd
-
 from hedera import (
     Hbar,
     FileCreateTransaction,
     ContractCreateTransaction
     )
-from get_client import client, OPERATOR_KEY
 
-def jsons_to_df(catalog):
+print(os.environ)    
 
-    catalog_df = pd.DataFrame(catalog)
-    catalog_df['contract_id'] = None
-    
-    return catalog_df
+def createClient():
+    pass
 
-def get_bin_contents(path):
-    
-    with open(path, encoding='UTF8') as f:
-        contents = f.read()
-    
-    return contents
 
-def create_hedera_contract(path):
-    
-    contents = get_bin_contents(path)
+def create_hedera_contract(bin_str, operator_key):
 
     txn = (
         FileCreateTransaction()
         .setKeys(OPERATOR_KEY)
-        .setContents(contents)
+        .setContents(bin_str)
         .setMaxTransactionFee(Hbar(100))
         .execute(client))
 
@@ -56,17 +40,3 @@ def create_hedera_contract(path):
     print(f" - Contract ID: {contractId.toString()}")
     
     return contractId.toString()
-
-def deploy_catalog(catalog):
-
-    catalog_df = jsons_to_df(catalog)
-    
-    for idx, row in catalog_df.iterrows():
-        
-        print(f'Deploying {row["name"]} to Hedera')
-
-        row['contract_id'] = create_hedera_contract(row['binpath'])
-        
-        print('')
-
-    return catalog_df

@@ -25,6 +25,11 @@
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "category",
+				"type": "string"
+			},
+			{
 				"internalType": "uint64",
 				"name": "price",
 				"type": "uint64"
@@ -55,14 +60,14 @@
 				"type": "uint64"
 			},
 			{
-				"internalType": "string",
+				"internalType": "uint256",
 				"name": "options_seats",
-				"type": "string"
+				"type": "uint256"
 			},
 			{
-				"internalType": "string",
+				"internalType": "uint256",
 				"name": "options_wheels",
-				"type": "string"
+				"type": "uint256"
 			}
 		],
 		"name": "createNewAspect",
@@ -94,9 +99,14 @@
 						"type": "string"
 					},
 					{
-						"internalType": "uint64",
+						"internalType": "string",
+						"name": "category",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
 						"name": "price",
-						"type": "uint64"
+						"type": "uint256"
 					},
 					{
 						"internalType": "string",
@@ -109,29 +119,29 @@
 						"type": "string"
 					},
 					{
-						"internalType": "uint64",
+						"internalType": "uint256",
 						"name": "weight",
-						"type": "uint64"
+						"type": "uint256"
 					},
 					{
-						"internalType": "uint64",
+						"internalType": "uint256",
 						"name": "materials_metal",
-						"type": "uint64"
+						"type": "uint256"
 					},
 					{
-						"internalType": "uint64",
+						"internalType": "uint256",
 						"name": "materials_plastic",
-						"type": "uint64"
+						"type": "uint256"
 					},
 					{
-						"internalType": "string",
+						"internalType": "uint256",
 						"name": "options_seats",
-						"type": "string"
+						"type": "uint256"
 					},
 					{
-						"internalType": "string",
+						"internalType": "uint256",
 						"name": "options_wheels",
-						"type": "string"
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct TreeHouseAspectController.Attributes",
@@ -150,6 +160,19 @@
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOwnAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

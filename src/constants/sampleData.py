@@ -21,7 +21,7 @@ sample_data_2 = {
             "addr": "DFW International Airport (DFW), 2400 Aviation Dr, DFW Airport, TX 75261, USA",
             "weight": 1800,
             "materials": {"metal": 1000, "plastic": 400},
-            "options": {"seats": null, "wheels": null},
+            "options": {"seats": 0, "wheels": 0},
         },
         "Model B": {
             "name": "Model B",
@@ -30,7 +30,7 @@ sample_data_2 = {
             "addr": "6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China",
             "weight": 1800,
             "materials": {"metal": 1100, "plastic": 500},
-            "options": {"seats": null, "wheels": null},
+            "options": {"seats": 0, "wheels": 0},
         },
         "Model A": {
             "name": "Model A",
@@ -39,7 +39,7 @@ sample_data_2 = {
             "addr": "DFW International Airport (DFW), 2400 Aviation Dr, DFW Airport, TX 75261, USA",
             "weight": 1800,
             "materials": {"metal": 1300, "plastic": 700},
-            "options": {"seats": null, "wheels": null},
+            "options": {"seats": 0, "wheels": 0},
         },
         "Model R": {
             "name": "Model R",
@@ -48,7 +48,7 @@ sample_data_2 = {
             "addr": "6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China",
             "weight": 2100,
             "materials": {"metal": 1500, "plastic": 800},
-            "options": {"seats": null, "wheels": null},
+            "options": {"seats": 0, "wheels": 0},
         },
     },
     "Wheel": {
@@ -96,3 +96,120 @@ sample_data_2 = {
         },
     },
 }
+
+
+
+
+sample_data_3 = [
+
+
+        {
+            "name": "Black Seat",
+            "category" : "Seat",
+            "price": 0,
+            "manufacturer": "Tokyo Seat Company",
+            "addr": "1-1 Furugome, Narita, Chiba 282-0004, Japan",
+            "weight": 100,
+            "plastic": 15,
+            "metal": 20,
+            "seats": 0,
+            "wheels": 0
+        },
+        {
+            "name": "White Seat",
+            "category" : "Seat",
+            "price": 1000,
+            "manufacturer": "Mexico City Seat Company",
+            "addr": "Av. Capit\u00e1n Carlos Le\u00f3n, Ciudad de M\u00e9xico, CDMX, Mexico",
+            "weight": 100,
+            "plastic": 15, 
+            "metal": 20,
+            "seats": 0,
+            "wheels": 0
+        },
+        {
+            "name": "W20",
+            "category" : "Wheel",
+            "price": 2000,
+            "manufacturer": "Austin Wheel Company Ltd",
+            "addr": "Parking Lot A, 3600 Presidential Blvd, Austin, TX 78719, USA",
+            "weight": 120,
+            "plastic": 12,
+            "metal": 40,
+            "seats": 0,
+            "wheels": 0
+        },
+      
+        {
+            "name": "W18",
+            "category" : "Wheel",
+            "price": 0,
+            "manufacturer": "Shanghai Wheel Company Ltd",
+            "addr": "8Q334RV5+P8J, Ying Bin Gao Su Gong Lu, Pu Dong Xin Qu, China",
+            "weight": 90,
+            "metal": 36,
+            "plastic": 10,
+            "seats": 0,
+            "wheels": 0
+        },
+        {
+            "name": "W19",
+            "category" : "Wheel",
+            "price": 1000,
+            "manufacturer": "Berlin Wheel Company Ltd",
+            "addr": "Melli-Beese-Ring 1, 12529 Sch\u00f6nefeld, Germany",
+            "weight": 100,
+            "plastic": 11,
+            "metal": 38,
+            "seats": 0,
+            "wheels": 0
+        },
+  {
+            "name": "Model H",
+            "category" : "Model",
+            "price": 40000,
+            "manufacturer": "Hedera Motors Dallas",
+            "addr": "DFW International Airport (DFW), 2400 Aviation Dr, DFW Airport, TX 75261, USA",
+            "weight": 1800,
+            "metal": 1000,
+            "plastic": 400,
+            "seats": 0,
+            "wheels": 0
+        },
+       {
+            "name": "Model B",
+            "category" : "Model",
+            "price": 70000,
+            "manufacturer": "Hedera Motors Hangzhou",
+            "addr": "6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China",
+            "weight": 1800,
+            "metal": 1100,
+            "plastic": 500,
+            "seats": 0,
+            "wheels": 0
+        },
+        {
+            "name": "Model A",
+            "category" : "Model",
+            "price": 50000,
+            "manufacturer": "Hedera Motors Dallas",
+            "addr": "DFW International Airport (DFW), 2400 Aviation Dr, DFW Airport, TX 75261, USA",
+            "weight": 1800,
+            "metal": 1300,
+            "plastic": 700,
+            "seats": 0, 
+            "wheels": 0
+        },
+        {
+            "name": "Model R",
+            "category" : "Model",
+            "price": 80000,
+            "manufacturer": "Hedera Motors Hangzhou",
+            "addr": "6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China",
+            "weight": 2100,
+            "metal": 1500,
+            "plastic": 800,
+            "seats": 0,
+            "wheels": 0
+        },
+]

@@ -70,4 +70,8 @@ contract TreeHouseAspectController {
     function getOwner() public view returns (address) {
         return owner;
     }
+
+    function getOwnAddress() public view returns (address) {
+        return address(this);
+    }
 }
