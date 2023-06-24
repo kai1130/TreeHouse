@@ -1,11 +1,6 @@
 import retrieve as r 
 
-from hedera import (
-    Hbar,
-    ContractCallQuery,
-    ContractId
-    )
-from get_client import client, OPERATOR_KEY
+from hedera import ContractId
 
 def read_catalog(catalog):
 
