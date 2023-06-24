@@ -6,38 +6,44 @@ contract TreeHouseAspectController {
 
     struct Attributes {
         string name;
-        uint64 price;
+        string category;
+        uint256 price;
         string manufacturer;
         string addr;
-        uint64 weight;
-        uint64 materials_metal;
-        uint64 materials_plastic;
-        string options_seats;
-        string options_wheels;
+        uint256 weight;
+        uint256 materials_metal;
+        uint256 materials_plastic;
+        uint256 options_seats;
+        uint256 options_wheels;
     }
 
+    event aspectCreated(uint256 aspectIndex);
+
     mapping (uint256 => Attributes) Aspects;
-    uint256 aspectCount = 0;
+    uint256 aspectCount = 0; // Note there will be no 0 Aspect.  A 0 aspect is equivalent to null
+    address owner;
 
     constructor() {
-
+      owner = msg.sender;
     }
 
     function createNewAspect(        
         string memory name,
+        string memory category,
         uint64 price,
         string memory manufacturer,
         string memory addr,
         uint64 weight,
         uint64 materials_metal,
         uint64 materials_plastic,
-        string memory options_seats,
-        string memory options_wheels
+        uint256 options_seats, // IDX of pertinent Aspect
+        uint256 options_wheels // IDX of pertinent Aspect
     ) public returns (uint256)
     {
       aspectCount += 1;
       Aspects[aspectCount] = Attributes(
         name, 
+        category,
         price, 
         manufacturer, 
         addr, 
@@ -48,6 +54,8 @@ contract TreeHouseAspectController {
         options_wheels
      );
 
+     emit aspectCreated(aspectCount);
+
      return aspectCount;
     }
 
@@ -57,5 +65,9 @@ contract TreeHouseAspectController {
 
     function getAspectCount()public view returns (uint256) {
         return aspectCount;
+    }
+
+    function getOwner() public view returns (address) {
+        return owner;
     }
 }

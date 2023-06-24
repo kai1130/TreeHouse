@@ -10,6 +10,10 @@ def root():
 def ping():
     return jsonify(data='pong')
 
+@app.route('init', methods=['GET'])
+def init_platform():
+  pass
+
 @app.route('/product', methods=['POST'])
 def add_product():
     name = request.form.get('name')
