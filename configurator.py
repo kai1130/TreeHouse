@@ -41,7 +41,7 @@ class Configurator:
             self.options['Seat'][seats]
         ))
 
-    def get_coords(self, address):
+    def __get_coords(self, address):
 
         response = gmaps.geocode(address)
 
@@ -52,7 +52,7 @@ class Configurator:
         if parent is None:
             parent = self.car
         
-        parent['lat'], parent['lng'] = self.get_coords(parent['addr'])
+        parent['lat'], parent['lng'] = self.__get_coords(parent['addr'])
         
         if 'options' in parent:
             for option, child in parent['options'].items():
