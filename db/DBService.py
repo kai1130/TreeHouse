@@ -17,10 +17,9 @@ class SQLiteWrapper:
     def create_contract_table(self):
         self.connect()
         query = '''
-            CREATE TABLE IF NOT EXISTS contract (
+            CREATE TABLE IF NOT EXISTS contracts (
                 id INTEGER PRIMARY KEY,
                 contract_id TEXT,
-                evm_addr TEXT,
                 network INTEGER
             );
         '''
@@ -60,7 +59,18 @@ class SQLiteWrapper:
         self.disconnect()
         return last_row_id
 
+    def insert_contract(contract_id, network):
+        self.connect()
+        query = '''
+          INSERT INTO contracts (contract_id, network)
+          VALUES (?, ?)
+        '''
 
+        self.cursor.execute(query, (contract_id, network))
+        self.conn.commit()
+        last_row_id = self.cursor.lastrowid
+        self.diconnect()
+        return last_row_id
 
 
 # Example usage
