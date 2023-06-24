@@ -14,7 +14,21 @@ class SQLiteWrapper:
         if self.conn:
             self.conn.close()
 
-    def create_table(self):
+    def create_contract_table(self):
+        self.connect()
+        query = '''
+            CREATE TABLE IF NOT EXISTS contract (
+                id INTEGER PRIMARY KEY,
+                contract_id TEXT,
+                evm_addr TEXT,
+                network INTEGER
+            );
+        '''
+        self.cursor.execute(query)
+        self.conn.commit()
+        self.disconnect()
+
+    def create_product_table(self):
         self.connect()
         query = '''
             CREATE TABLE IF NOT EXISTS products (
@@ -23,8 +37,12 @@ class SQLiteWrapper:
                 name TEXT,
                 binpath TEXT,
                 callable TEXT,
-                contract_id TEXT
-            )
+                contract_id TEXT,
+                instantiated BOOL DEFAULT false,
+                contract_id TEXT,
+                evm_addr TEXT,
+                contract_index INTEGER
+            );
         '''
         self.cursor.execute(query)
         self.conn.commit()
@@ -42,7 +60,10 @@ class SQLiteWrapper:
         self.disconnect()
         return last_row_id
 
+
+
+
 # Example usage
-wrapper = SQLiteWrapper('your_database.db')
-wrapper.create_table()
-wrapper.insert_product('Model', 'Model H', './contract_bytecode/models/model_h.bin', 'retrieve_model_dict', '0.0.14973364')
+#wrapper = SQLiteWrapper('your_database.db')
+#wrapper.create_table()
+#wrapper.insert_product('Model', 'Model H', './contract_bytecode/models/model_h.bin', 'retrieve_model_dict', '0.0.14973364')
