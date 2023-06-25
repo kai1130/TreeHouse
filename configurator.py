@@ -14,6 +14,7 @@ class Configurator:
     def __init__(self, options):
         self.car = None
         self.kgm = 0
+        self.price = 0
         self.mat = {}
         self.nodes = []
         self.edges = []
@@ -72,6 +73,17 @@ class Configurator:
         if 'options' in parent:
             for option, child in parent['options'].items():
                 self.sum_mat(child)
+
+    def get_price(self, parent=None):
+
+        if parent is None:
+            parent = self.car
+
+        self.price += parent['price']
+
+        if 'options' in parent:
+            for option, child in parent['options'].items():
+                self.get_price(child)
 
     def get_cumul_weight(self, parent=None):
         
