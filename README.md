@@ -1,6 +1,6 @@
 # TreeHouse
  
-## Scalable Graph Based Supply Chain Visibility Solution Targeting Mncs Leveraging Hedera Smart Contracts and Arkhia
+## Scalable Graph Based Supply Chain Visibility Solution Targeting MNCs Leveraging Hedera Smart Contracts and Arkhia
 
 Name: Kai Hayden, kaihayden1130@gmail.com
 
