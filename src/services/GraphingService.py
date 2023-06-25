@@ -1,7 +1,6 @@
 import json
 import googlemaps
 
-import pydeck as pdk
 import haversine as hs
 
 from datetime import datetime
@@ -9,9 +8,10 @@ from credentials import gmaps_api
 
 gmaps = googlemaps.Client(key=gmaps_api)
 
-class Configurator:
+class GraphingService:
 
-    def __init__(self, options):
+    def __init__(self,options):
+        self.name = "Unnamed Car"
         self.car = None
         self.kgm = 0
         self.mat = {}
@@ -22,41 +22,54 @@ class Configurator:
     def set_name(self, name):
         self.name = name
 
-    def set_location(self, location):
+    def set_location(self, location=None):
+        if location == None:
+            location = self.car['addr']
+
         self.addr = location
-        self.user_lat, self.user_lng = self.get_coords(location)
+        self.user_lat, self.user_lng = self.__get_coords(location)
 
     def select_model(self, model):
-        self.car = json.loads(json.dumps(
-            self.options['Model'][model]
-        ))
+        self.car = self.options['Model'][model]
+        
 
     def select_wheels(self, wheels):
-        self.car['options']['wheels'] = json.loads(json.dumps(
-            self.options['Wheel'][wheels]
-        ))
+        self.car['options']['wheels'] = self.options['Wheel'][wheels]
+
         
     def select_seats(self, seats):
-        self.car['options']['seats'] = json.loads(json.dumps(
-            self.options['Seat'][seats]
-        ))
+        self.car['options']['seats'] = self.options['Seat'][seats]
+        
+
+    def select_option(self, option, choice):
+        self.car['options'][option.lower()] = self.options[option][choice]
+        
 
     def __get_coords(self, address):
 
         response = gmaps.geocode(address)
+        print('response::  %s' % response)
 
-        return response[0]['geometry']['location']['lat'], response[0]['geometry']['location']['lng']  
+        return (response[0]['geometry']['location']['lat'], response[0]['geometry']['location']['lng'])
 
     def set_coords(self, parent=None):
         
         if parent is None:
             parent = self.car
         
-        parent['lat'], parent['lng'] = self.__get_coords(parent['addr'])
+        coords = self.__get_coords(parent['addr'])
+
+        print("PARENT:::", parent)
+
+        parent['lat'] = coords[0]
+        parent['lng'] = coords[1]
         
         if 'options' in parent:
             for option, child in parent['options'].items():
-                self.set_coords(child)
+                if child != -1:
+                    self.set_coords(child)
+                else:
+                    pass
                 
     def sum_mat(self, parent=None):
         
@@ -65,13 +78,17 @@ class Configurator:
             
         if 'materials' in parent:
             for material, amt in parent['materials'].items():
+                print(material, amt)
                 if material not in self.mat:
                     self.mat[material] = 0
                 self.mat[material] += amt
             
         if 'options' in parent:
             for option, child in parent['options'].items():
-                self.sum_mat(child)
+                if child != -1:
+                    self.sum_mat(child)
+                else:
+                    pass
 
     def get_cumul_weight(self, parent=None):
         
@@ -84,8 +101,11 @@ class Configurator:
 
         if 'options' in parent:
             for option, child in parent['options'].items():
-                parent['cumul_weight'] += child['weight']
-                self.get_cumul_weight(child)
+                if child != -1:
+                    parent['cumul_weight'] += child['weight']
+                    self.get_cumul_weight(child)
+                else:
+                    pass
                 
     def get_nodes(self, parent=None):
         
@@ -98,12 +118,17 @@ class Configurator:
                 'lat': self.user_lat,
                 'lng': self.user_lng
             })
+
+        print('Parent: ', parent)
         
         self.nodes.append({k: parent[k] for k in set(list(parent.keys())) - set(['options'])})
 
         if 'options' in parent:
             for option, child in parent['options'].items():
-                self.get_nodes(child)
+                if child != -1:
+                    self.get_nodes(child)
+                else:
+                    pass
                 
     def calc_edges(self, parent=None):
         
@@ -113,6 +138,9 @@ class Configurator:
         if 'options' in parent:
             for option, child in parent['options'].items():
 
+                if child == -1:
+                    continue
+                    
                 parent_coords = [parent['lng'], parent['lat']]
                 child_coords = [child['lng'], child['lat']]
 
@@ -126,7 +154,7 @@ class Configurator:
                         child_coords[::-1])
                 })
 
-            self.calc_edges(child)
+                self.calc_edges(child)
 
     def calc_user_edge(self):
 
@@ -150,35 +178,38 @@ class Configurator:
         for edge in self.edges:
             self.kgm += edge['cumul_weight'] * edge['distance']
 
-    def plot(self):
-        
-        layer = pdk.Layer(
-            "ScatterplotLayer",
-            data=self.nodes,
-            get_position="[lng, lat]",
-            get_color=[255, 0, 0],  # Set color to red
-            radius_scale=1,
-            radius_min_pixels=2,
-            radius_max_pixels=10,
-            get_radius=100000,  # Set radius to 100 pixels
-            pickable=True,
-        )
+    def generatePlot(self):
 
-        line_layer = pdk.Layer(
-            "LineLayer",
-            self.edges,
-            get_source_position="start",
-            get_target_position="end",
-            get_color=[255, 255, 255],
-            get_width=3,
-            highlight_color=[255, 255, 255],
-            picking_radius=5,
-            auto_highlight=True,
-            pickable=True,
-        )
+        if len(self.nodes) == 0 or len(self.edges) == 0:
+            return {}
 
-        view = pdk.ViewState(latitude=0, longitude=0, min_zoom=0.5, zoom=1, max_zoom=3)
+        return {
+            "layers" : {
+                "scatter_plot": {
+                    "type" : "ScatterplotLayer",
+                    "data" : self.nodes,
+                    "get_position" : "[lng, lat]",
+                    "get_color" : [255, 0, 0],
+                    "radius_scale" : 1,
+                    "radius_min_pixels" : 2,
+                    "radius_max_pixels" : 10,
+                    "get_radius" : 10000,
+                    "pickable" : True
+                },
+                "line_layer" : {
+                    "type" : "LineLayer",
+                    "edges" : self.edges,
+                    "get_source_position" : "start",
+                    "get_target_position" : "end",
+                    "get_color" : [255, 255, 255],
+                    "picking_radius" : 5,
+                    "auto_highlight" : True,
+                    "pickable" : True
+                }
+            },
+            "mat" : self.mat,
+            "kgm" : self.kgm,
+            "name" : self.name,
+            "details" : self.car
+        }
 
-        deck = pdk.Deck(layers=[line_layer, layer], initial_view_state=view)
-        
-        return deck
