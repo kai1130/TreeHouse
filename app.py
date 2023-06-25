@@ -1,5 +1,6 @@
 import credentials as c
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 import os
 import credentials as c
 from src.services import DBService as dbs
@@ -9,7 +10,7 @@ from web3 import Web3
 import json
 from src.constants.sampleData import sample_data_3
 from src.services.GraphingService import GraphingService as gs
-
+import time
 
 with open("./contract_bytecode/generic_controller/generic_abi.json") as abi_fil:
     controller_abi = json.loads(abi_fil.read())
@@ -40,17 +41,30 @@ except:
 
 # BEGIN FLASK LOGIC
 
+last_retrieval = {
+    "data" : None,
+    "time" : 0.0
+}
+
+
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/', methods=['GET', 'POST'])
+@cross_origin()
 def root():
     return jsonify(data='foobar')
 
+
 @app.route('/ping', methods=['GET', 'POST'])
+@cross_origin()
 def ping():
     return jsonify(data='pong')
 
+
 @app.route('/product', methods=['POST'])
+@cross_origin()
 def add_product():
     name = request.form.get('name')
     price = request.form.get('price')
@@ -66,7 +80,9 @@ def add_product():
 
     return jsonify(data='Product added successfully')
 
+
 @app.route('/init', methods=['GET'])
+@cross_origin()
 def init_platform():
     pass
     # CHECK for init
@@ -137,6 +153,7 @@ def init_platform():
 
 
 @app.route('/platform_info')
+@cross_origin()
 def platform_info():
     return jsonify({
         "contract_id" : os.environ["CONTRACT_ID"],
@@ -146,25 +163,39 @@ def platform_info():
 
 
 @app.route('/registry/all', methods=["GET"])
+@cross_origin()
 def getAllRegistryInfo():
 
     data_format = request.args.get('format')
+    THIRTY_MINUTES = 1800
 
-    SmartContractService = smartc.ContractService(
-        f'{c.JSON_RPC}/{c.ARKHIA_KEY}',
-        c.CONTRACT_EVM_ADDR,
-        controller_abi
-    )
+    now = time.time()
 
-    reg_materials = SmartContractService.grabAllRegisteredMaterials()
+    if now - THIRTY_MINUTES > last_retrieval["time"]:
+
+        SmartContractService = smartc.ContractService(
+            f'{c.JSON_RPC}/{c.ARKHIA_KEY}',
+            c.CONTRACT_EVM_ADDR,
+            controller_abi
+        )
     
-    if data_format and data_format == "object":
-        return jsonify({"data": df.convertContractArrayToOptionsStruct(reg_materials)})
+        reg_materials = SmartContractService.grabAllRegisteredMaterials()
+        last_retrieval["time"] = now
+        last_retrieval["data"] = reg_materials
+
+        if data_format and data_format == "object":
+            return jsonify({"data": df.convertContractArrayToOptionsStruct(reg_materials)})
+        else:
+            return jsonify({"data": reg_materials})
     else:
-        return jsonify({"data": reg_materials})
+        if data_format and data_format == "object":
+            return jsonify({"data": df.convertContractArrayToOptionsStruct(last_retrieval["data"])})
+        else:
+            return jsonify({"data": last_retrieval["data"]})
 
 
 @app.route('/registry/routes', methods=['GET'])
+@cross_origin()
 def getCoordinatesFromRegistry():
     SmartContractService = smartc.ContractService(
         f'{c.JSON_RPC}/{c.ARKHIA_KEY}',
@@ -178,14 +209,14 @@ def getCoordinatesFromRegistry():
     config = {"data": df.convertContractArrayToOptionsStruct(reg_materials)}
 
 @app.route('/registry/create_car', methods=['POST'])
+@cross_origin()
 def createCar():
-    car_name = request.form.get('name')
-    model = request.form.get('model')
-    options = json.loads(request.form.get('options')) # [ {type: <Option_Type>, name: <Option_Name>}, {type: <Option_Type>, name: <Option_Name>}]
+
+    car_name = request.json.get('name')
+    model = request.json.get('model')
+    options = request.json.get('options') # [ {type: <Option_Type>, name: <Option_Name>}, {type: <Option_Type>, name: <Option_Name>}]
     user_location = request.form.get('user_location')
-    
-    print(model)
-    print(options)
+
 
     SmartContractService = smartc.ContractService(
         f'{c.JSON_RPC}/{c.ARKHIA_KEY}',
