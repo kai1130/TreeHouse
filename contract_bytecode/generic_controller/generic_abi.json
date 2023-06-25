@@ -1,0 +1,194 @@
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "aspectIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "aspectCreated",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "category",
+				"type": "string"
+			},
+			{
+				"internalType": "uint64",
+				"name": "price",
+				"type": "uint64"
+			},
+			{
+				"internalType": "string",
+				"name": "manufacturer",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "addr",
+				"type": "string"
+			},
+			{
+				"internalType": "uint64",
+				"name": "weight",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint64",
+				"name": "materials_metal",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint64",
+				"name": "materials_plastic",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint256",
+				"name": "options_seats",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "options_wheels",
+				"type": "uint256"
+			}
+		],
+		"name": "createNewAspect",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "idx",
+				"type": "uint256"
+			}
+		],
+		"name": "getAspect",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "category",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "manufacturer",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "addr",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "weight",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "materials_metal",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "materials_plastic",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "options_seats",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "options_wheels",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct TreeHouseAspectController.Attributes",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAspectCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOwnAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
