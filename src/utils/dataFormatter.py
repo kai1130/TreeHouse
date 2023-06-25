@@ -23,15 +23,14 @@ INPUT_PRODUCT_EXAMPLE = (
     1800, # weight
     1100, # metal
     500, # plastic
-    0 # seats
+    0, # seats
     0 # wheels
 )
 
 
- """
+"""
 tuple(string,uint64,string,string,uint64,uint64,uint64,string,string): Model B,70000,Hedera Motors Hangzhou,6CPQ+9HC, Xiaoshan District, Hangzhou, Zhejiang, China,1800,1100,500,,
-
- """
+"""
 
 
 OUTPUT_EXAMPLE = {
@@ -73,3 +72,57 @@ def assembleOptionsStructureFull(array_of_data):
     return final_struct
 
 
+def determineMaterials(item_array):
+    category = item_array[1] # Metal 6 Plastic 7
+
+    if category == "Model":
+        return {"metal" : item_array[6], "plastic" : item_array[7]}
+    elif category == "Wheel":
+        return {"metal" : item_array[6], "rubber" : item_array[7]}
+    elif category == "Seat":
+        return {"metal" : item_array[6], "leather" : item_array[7]}
+    else:
+        return {"material_a": item_array[6], "material_b" : item_array[7]}
+    
+
+
+def determineOptions(item_array, tuple_array):
+    category = item_array[1]
+
+    opt_1 = -1 if item_array[8] == 0 else determineMaterials(tuple_array[item_array[8]])
+    opt_2 = -1 if item_array[9] == 0 else determineMaterials(tuple_array[item_array[9]])
+
+    if category == "Model":
+        return {"wheel" : opt_1, "seat" : opt_2}
+    elif category == "Wheel":
+        return {}
+    elif category == "Seat":
+        return {}
+    else:
+        return {"material_a": item_array[6], "material_b" : item_array[7]}
+
+def convertContractArrayToOptionsStruct(tuple_array):
+    pass
+
+    return_obj = {}
+
+
+    for item in tuple_array:
+        category = item[1]
+        return_obj[category] = {}
+
+    for item in tuple_array:
+        category = item[1]
+        name = item[0]
+
+        return_obj[category][name] = {
+            "name" : name,
+            "price" : item[2],
+            "manufacturer" : item[3],
+            "addr" : item[4],
+            "weight" : item[5],
+            "materials" : determineMaterials(item),
+            "options" : determineOptions(item, tuple_array)
+        }
+
+    return return_obj

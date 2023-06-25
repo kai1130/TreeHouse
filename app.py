@@ -1,16 +1,18 @@
-from flask import Flask, jsonify
+import credentials as c
+from flask import Flask, jsonify, request
 import os
 import credentials as c
 from src.services import DBService as dbs
+from src.services import SmartContractService as smartc
+from src.utils import dataFormatter as df
 from web3 import Web3
 import json
 from src.constants.sampleData import sample_data_3
+from src.services.GraphingService import GraphingService as gs
+
 
 with open("./contract_bytecode/generic_controller/generic_abi.json") as abi_fil:
     controller_abi = json.loads(abi_fil.read())
-
-
-print(controller_abi)
 
 try:
     from src.services import HederaService as hs
@@ -30,17 +32,8 @@ try:
     os.environ["ARKHIA_KEY"] = c.ARKHIA_KEY
     os.environ["JSON_RPC"] = c.JSON_RPC
     os.environ["MIRROR_NODE"] = c.MIRROR_NODE
+    os.environ["CONTRACT_EVM_ADDR"] = c.CONTRACT_EVM_ADDR
     
-    print(
-        f"""
-        Setting ENVIRON:
-        \n{os.environ['OPERATOR_ID']}
-        \n{os.environ['OPERATOR_KEY']}
-        \n{os.environ['GMAPS_API']}
-        \n{os.environ['ARKHIA_KEY']}
-        \n{os.environ['JSON_RPC']}
-        \n{os.environ['MIRROR_NODE']}
-    """)
 except:
     print ("ENVIRONMENT NOT SET.  PLEASE SET credentials.py")
     raise Error('No ENV') 
@@ -49,11 +42,11 @@ except:
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def root():
     return jsonify(data='foobar')
 
-@app.route('/ping')
+@app.route('/ping', methods=['GET', 'POST'])
 def ping():
     return jsonify(data='pong')
 
@@ -141,6 +134,87 @@ def init_platform():
     # Finally...
     init_file = open(INIT_FILE, "w")
     init_file.close()
+
+
+@app.route('/platform_info')
+def platform_info():
+    return jsonify({
+        "contract_id" : os.environ["CONTRACT_ID"],
+        "contract_addr" : os.environ["CONTRACT_EVM_ADDR"],
+        "contract_abi" : controller_abi
+    })
+
+
+@app.route('/registry/all', methods=["GET"])
+def getAllRegistryInfo():
+
+    data_format = request.args.get('format')
+
+    SmartContractService = smartc.ContractService(
+        f'{c.JSON_RPC}/{c.ARKHIA_KEY}',
+        c.CONTRACT_EVM_ADDR,
+        controller_abi
+    )
+
+    reg_materials = SmartContractService.grabAllRegisteredMaterials()
+    
+    if data_format and data_format == "object":
+        return jsonify({"data": df.convertContractArrayToOptionsStruct(reg_materials)})
+    else:
+        return jsonify({"data": reg_materials})
+
+
+@app.route('/registry/routes', methods=['GET'])
+def getCoordinatesFromRegistry():
+    SmartContractService = smartc.ContractService(
+        f'{c.JSON_RPC}/{c.ARKHIA_KEY}',
+        c.CONTRACT_EVM_ADDR,
+        controller_abi
+    )
+
+    reg_materials = SmartContractService.grabAllRegisteredMaterials()
+    
+    
+    config = {"data": df.convertContractArrayToOptionsStruct(reg_materials)}
+
+@app.route('/registry/create_car', methods=['POST'])
+def createCar():
+    car_name = request.form.get('name')
+    model = request.form.get('model')
+    options = json.loads(request.form.get('options')) # [ {type: <Option_Type>, name: <Option_Name>}, {type: <Option_Type>, name: <Option_Name>}]
+    user_location = request.form.get('user_location')
+    
+    print(model)
+    print(options)
+
+    SmartContractService = smartc.ContractService(
+        f'{c.JSON_RPC}/{c.ARKHIA_KEY}',
+        c.CONTRACT_EVM_ADDR,
+        controller_abi
+    )
+
+    reg_materials = SmartContractService.grabAllRegisteredMaterials()
+    
+    
+    config =  df.convertContractArrayToOptionsStruct(reg_materials)
+
+    car = gs(config)
+    car.select_model(model)
+
+    for opt in options:
+        car.select_option(opt["type"], opt["name"])
+    
+    car.set_name(car_name)
+    car.set_coords()
+    car.set_location(user_location or None)
+    car.sum_mat()
+    car.get_cumul_weight()
+    car.get_nodes()
+    car.calc_edges()
+
+    return jsonify({"data": car.generatePlot()})
+
+
 
 
 if __name__ == '__main__':

@@ -98,8 +98,22 @@ sample_data_2 = {
 }
 
 
+sample_data_3 = [
+            {
+            "name": "White Seat",
+            "category" : "Seat",
+            "price": 1000,
+            "manufacturer": "Mexico City Seat Company",
+            "addr": "Av. Capit\u00e1n Carlos Le\u00f3n, Ciudad de M\u00e9xico, CDMX, Mexico",
+            "weight": 100,
+            "plastic": 15, 
+            "metal": 20,
+            "seats": 0,
+            "wheels": 0
+        },
+]
 
-
+"""
 sample_data_3 = [
 
 
@@ -213,3 +227,4 @@ sample_data_3 = [
             "wheels": 0
         },
 ]
+"""
