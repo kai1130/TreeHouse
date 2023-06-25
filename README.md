@@ -4,11 +4,11 @@
 
 **Name:** Kai Hayden, kaihayden1130@gmail.com
 
-**Theme:** Sustainability
-
 **Demo Site:** [https://treehouse.contextural.io/](https://treehouse.contextural.io/)
 
 **Pitch Link:** [https://youtu.be/tqaKIqeCMxM](https://youtu.be/tqaKIqeCMxM)
+
+**Theme:** Sustainability
 
 **Overview of the problem being addressed:**
 
